@@ -9,8 +9,11 @@ from .serializers import WritingSerializer, CommentSerializer, ConversationSeria
 
 
 class WritingViewSet(viewsets.ModelViewSet):
-    queryset = Writing.objects.all().order_by('-created_at')
+    queryset = Writing.objects.all()
     serializer_class = WritingSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(writer=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):

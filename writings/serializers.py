@@ -6,21 +6,21 @@ from django.contrib.auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        fields = ["id", "username"]
+
+
+class WritingSerializer(serializers.ModelSerializer):
+    writer = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Writing
+        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
-
-
-class WritingSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Writing
-        fields = '__all__'
+        fields = "__all__"
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -38,4 +38,13 @@ class ConversationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Conversation
-        fields = ['id', 'user1', 'user1_username', 'user2', 'user2_username', 'messages', 'created_at', 'updated_at']
+        fields = [
+            'id',
+            'user1',
+            'user1_username',
+            'user2',
+            'user2_username',
+            'messages',
+            'created_at',
+            'updated_at'
+        ]
